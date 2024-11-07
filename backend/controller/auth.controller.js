@@ -1,5 +1,6 @@
 import bcryptjs from "bcryptjs";
 import crypto from "crypto";
+import status from "http-status";
 
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
 import {
@@ -52,7 +53,7 @@ export const signup = async (req, res) => {
 			},
 		});
 	} catch (error) {
-		res.status(400).json({ success: false, message: error.message });
+		res.status(status.BAD_REQUEST).json({ success: false, message: error.message });
 	}
 };
 
@@ -94,11 +95,11 @@ export const login = async (req, res) => {
 	try {
 		const user = await User.findOne({ email });
 		if (!user) {
-			return res.status(400).json({ success: false, message: "Invalid credentials" });
+			return res.status(status.BAD_REQUEST).json({ success: false, message: "Invalid credentials" });
 		}
 		const isPasswordValid = await bcryptjs.compare(password, user.password);
 		if (!isPasswordValid) {
-			return res.status(400).json({ success: false, message: "Invalid credentials" });
+			return res.status(status.BAD_REQUEST).json({ success: false, message: "Invalid credentials" });
 		}
 
 		generateTokenAndSetCookie(res, user._id);
@@ -106,7 +107,7 @@ export const login = async (req, res) => {
 		user.lastLogin = new Date();
 		await user.save();
 
-		res.status(200).json({
+		res.status(status.OK).json({
 			success: true,
 			message: "Logged in successfully",
 			user: {
@@ -116,13 +117,13 @@ export const login = async (req, res) => {
 		});
 	} catch (error) {
 		console.log("Error in login ", error);
-		res.status(400).json({ success: false, message: error.message });
+		res.status(status.BAD_REQUEST).json({ success: false, message: error.message });
 	}
 };
 
 export const logout = async (req, res) => {
 	res.clearCookie("token");
-	res.status(200).json({ success: true, message: "Logged out successfully" });
+	res.status(status.OK).json({ success: true, message: "Logged out successfully" });
 };
 
 export const forgotPassword = async (req, res) => {
@@ -131,7 +132,7 @@ export const forgotPassword = async (req, res) => {
 		const user = await User.findOne({ email });
 
 		if (!user) {
-			return res.status(400).json({ success: false, message: "User not found" });
+			return res.status(status.BAD_REQUEST).json({ success: false, message: "User not found" });
 		}
 
 		// Generate reset token
@@ -146,10 +147,10 @@ export const forgotPassword = async (req, res) => {
 		// send email
 		await sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL}/reset-password/${resetToken}`);
 
-		res.status(200).json({ success: true, message: "Password reset link sent to your email" });
+		res.status(status.OK).json({ success: true, message: "Password reset link sent to your email" });
 	} catch (error) {
 		console.log("Error in forgotPassword ", error);
-		res.status(400).json({ success: false, message: error.message });
+		res.status(status.BAD_REQUEST).json({ success: false, message: error.message });
 	}
 };
 
@@ -164,7 +165,7 @@ export const resetPassword = async (req, res) => {
 		});
 
 		if (!user) {
-			return res.status(400).json({ success: false, message: "Invalid or expired reset token" });
+			return res.status(status.BAD_REQUEST).json({ success: false, message: "Invalid or expired reset token" });
 		}
 
 		// update password
@@ -177,10 +178,10 @@ export const resetPassword = async (req, res) => {
 
 		await sendResetSuccessEmail(user.email);
 
-		res.status(200).json({ success: true, message: "Password reset successful" });
+		res.status(status.OK).json({ success: true, message: "Password reset successful" });
 	} catch (error) {
 		console.log("Error in resetPassword ", error);
-		res.status(400).json({ success: false, message: error.message });
+		res.status(status.BAD_REQUEST).json({ success: false, message: error.message });
 	}
 };
 
@@ -188,12 +189,12 @@ export const checkAuth = async (req, res) => {
 	try {
 		const user = await User.findById(req.userId).select("-password");
 		if (!user) {
-			return res.status(400).json({ success: false, message: "User not found" });
+			return res.status(status.BAD_REQUEST).json({ success: false, message: "User not found" });
 		}
 
-		res.status(200).json({ success: true, user });
+		res.status(status.OK).json({ success: true, user });
 	} catch (error) {
 		console.log("Error in checkAuth ", error);
-		res.status(400).json({ success: false, message: error.message });
+		res.status(status.BAD_REQUEST).json({ success: false, message: error.message });
 	}
 };
