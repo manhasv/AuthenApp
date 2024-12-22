@@ -1,7 +1,7 @@
 import express from "express";
 import dotenv from "dotenv";
-import queueRoutes from "./enqueue.routes.js";
-import { initQueue } from "./producer.js"; // Import initQueue
+import queueRoutes from "./routes/enqueue.routes.js";
+import { initQueue } from "./queues/producer.js"; // Import initQueue
 
 dotenv.config();
 
@@ -12,7 +12,7 @@ app.use(express.json()); // Parse incoming JSON
 
 // Initialize the RabbitMQ queue connection
 initQueue().then(() => {
-    console.log("Queue initialized and ready to send messages.");
+    console.log("Queue initiated");
 }).catch(error => {
     console.error("Failed to initialize queue:", error);
     process.exit(1); // Exit if queue connection fails

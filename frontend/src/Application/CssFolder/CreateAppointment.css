@@ -1,0 +1,107 @@
+/* Create Appointment Page Container */
+.create-appointment-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full-page height */
+    background: linear-gradient(135deg, #004080, #007bff); /* Gradient background */
+    color: white;
+  }
+  
+  /* Form Styles */
+  .create-appointment-form {
+    background-color: white;
+    color: #333;
+    padding: 40px 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .create-appointment-form h2 {
+    margin-bottom: 10px;
+    font-size: 2rem;
+    color: #004080;
+  }
+  
+  .create-appointment-form p {
+    margin-bottom: 20px;
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+  }
+  
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  textarea {
+    resize: none;
+    height: 80px;
+  }
+  
+  .create-appointment-button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+  }
+  
+  .create-appointment-button:hover {
+    background-color: #0056b3;
+  }
+  
+
+  .form-group label {
+    display: block;
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 5px;
+    font-weight: bold;
+  }
+  
+  /* Input Styling for Consistency */
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s;
+  }
+  
+  .form-group input:focus {
+    border-color: #007bff;
+    outline: none;
+  }
+  
+  /* Additional Placeholder Text Styling (Optional) */
+  input::placeholder {
+    font-size: 0.9rem;
+    color: #aaa;
+  }

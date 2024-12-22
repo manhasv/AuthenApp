@@ -61,3 +61,29 @@ export const createAppointments = async (req, res, next) => {
         next(error); // Forward error to centralized error handling middleware
     }
 };
+
+export const getAppointments = async (req, res, next) => {
+    try {
+        // Extract user email or other filter criteria from the request query or token
+        const { email } = req.query; // Assuming email is passed as a query parameter
+
+        // Validate that email is provided
+        if (!email) {
+            return res.status(status.BAD_REQUEST).json({
+                success: false,
+                message: "Email is required to fetch appointments.",
+            });
+        }
+
+        // Find all appointments for the provided email
+        const appointments = await Appointment.find({ email }).sort({ appointmentDate: 1 });
+
+        // Send the appointments as the response
+        res.status(status.OK).json({
+            success: true,
+            appointments,
+        });
+    } catch (error) {
+        next(error); // Pass the error to centralized error handling middleware
+    }
+};

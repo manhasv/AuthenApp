@@ -6,7 +6,7 @@ import authRoutes from "./routes/auth.routes.js";
 import userRoutes from "./routes/user.routes.js";
 import appointmentRoutes from "./routes/appointment.routes.js";
 import status from "http-status";
-import CORS from 'cors';
+import cors from "cors";
 
 dotenv.config();
 
@@ -15,7 +15,14 @@ const PORT = process.env.PORT;
 
 app.use(express.json()); // parse incoming request with JSON payloads in req.body
 app.use(cookieParser()); //parse incoming cookie and extract token
-app.use(CORS());
+
+
+const corsOptions = {
+  origin: "http://localhost:3000", // Allow requests from the frontend
+  credentials: true, // Allow cookies and authentication headers
+};
+
+app.use(cors(corsOptions));
 
 if (!PORT || !process.env.MONGO_URI) {
     console.error("Missing environment configurations. Ensure all required variables are defined.");

@@ -1,5 +1,5 @@
 import express from "express";
-import { sendToQueue } from "./producer.js";
+import { sendToQueue } from "../queues/producer.js";
 import status from "http-status";
 
 const router = express.Router();
