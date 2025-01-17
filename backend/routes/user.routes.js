@@ -1,11 +1,17 @@
 import express from "express";
-import { retrieveProfile, updateProfile, deleteProfile } from "../controller/user.controller.js";
+import {  fetchAllUsers, retrieveProfileByID } from "../controller/user.controller.js";
 
 const router = express.Router();
 
-router.post("/update-profile", updateProfile);
-router.post("/delete-profile", deleteProfile);
+// router.post("/", updateProfileByEmail);
+// router.delete("/", deleteProfileByEmail);
 
-router.get("/retrieve-profile", retrieveProfile);
+// router.get("/", retrieveProfileByEmail);
 
+// router.post("/:uid", updateProfileByEmail);
+// router.delete("/:uid", deleteProfileByEmail);
+
+router.get("/fetch/:uid", retrieveProfileByID);
+
+router.get("/fetch", fetchAllUsers);
 export default router;

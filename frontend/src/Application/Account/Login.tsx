@@ -4,6 +4,7 @@ import { startLoading, setUser, setError } from "./authReducer";
 import { login } from "./client"; // API function
 import { Link, useNavigate } from "react-router-dom";
 import "../CssFolder/Login.css";
+import { showSuccessToast, showErrorToast } from "../Components/Toast"; 
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -17,10 +18,13 @@ export default function Login() {
     dispatch(startLoading()); // Set loading to true
     try {
       const userData = await login({ email, password });
-      dispatch(setUser(userData)); // Set the user on success
+      dispatch(setUser(userData.user)); // Set the user on success
+      showSuccessToast("Login successful!");
       navigate("/Application");
     } catch (e: any) {
-      dispatch(setError(e.message || "Login failed. Check your credentials.")); // Set error on failure
+      dispatch(setError("Login failed. Check your credentials.")); 
+      console.log("Login failed:", e);
+      showErrorToast("Login failed. Check your credentials.");
     }
   };
 

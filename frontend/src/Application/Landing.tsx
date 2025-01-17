@@ -1,70 +1,80 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import './CssFolder/Landing.css';
-import TopBar from './Components/TopBar';
-import AboutSection from './Components/AboutSection';
-import Footer from './Components/Footer';
+import React from "react";
+import { useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import "./CssFolder/Landing.css";
+import TopBar from "./Components/TopBar";
+import AboutSection from "./Components/AboutSection";
+import Footer from "./Components/Footer";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCalendar, faLock, faUniversalAccess } from "@fortawesome/free-solid-svg-icons"; 
 
 export default function Landing() {
+  const uid = useParams();
   const currentUser = useSelector((state: any) => state.auth.user);
 
   return (
-    <div>
-      {/* Top Bar */}
+    <div className="landing-page">
       <TopBar />
-
-      {/* Hero Section */}
-      <div className="hero-section">
-        {currentUser ? (
-          <>
-            <h1>Welcome Back, {currentUser.user.name || currentUser.user.email}!</h1>
-            <p>We’re glad to have you here. What would you like to do today?</p>
-            <div className="cta-buttons">
-              <Link to="/Application/Appointment" className="cta-button">Manage Appointments</Link>
-              <Link to="/Application/Profile" className="cta-button">View Profile</Link>
-            </div>
-          </>
-        ) : (
-          <>
-            <h1>Welcome to Our Service</h1>
-            <p>Your hub for effortless appointment management</p>
-            <div className="cta-buttons">
-              <Link to="/Application/Account/Login" className="cta-button">Login</Link>
-              <Link to="/Application/Account/Signup" className="cta-button">Sign Up</Link>
-            </div>
-          </>
-        )}
-      </div>
-
-      {/* Split Screen Section */}
-      <div className="split-screen">
-        {/* Left: About Section */}
-        <div className="about-section-wrapper">
-          <AboutSection />
+      {currentUser && currentUser.role == "admin" && (
+        <div className="admin-landing">
+          <h1>Admin Dashboard</h1>
+          <Link to="/Application/Admin/Users">Manage Users</Link>
+          <Link to="/Application/Admin/Appointments">Manage Appointments</Link>
         </div>
-
-        {/* Right: Personalized Section */}
-        <div className="placeholder-section">
-          {currentUser ? (
-            <>
-              <button className="placeholder-button">Quick Access</button>
-              <button className="placeholder-button">
-              <Link to="/Application/Settings" className="placeholder-button">
-                Account Settings
-              </Link>
-              </button>
-            </>
-          ) : (
-            <>
-              <button className="placeholder-button">Learn More</button>
-              <button className="placeholder-button">Contact Us</button>
-            </>
+      )}
+      {currentUser && currentUser.role == "doctor" && (
+        <div className="doctor-landing">
+          <h1>Doctor Dashboard</h1>
+          <Link to="/Doctor/Appointments">View Appointments</Link>
+          </div>
+      )}
+      {(!currentUser || currentUser.role == "user") && (
+        <div>
+      <section className="hero-section">
+        <div className="hero-content">
+          <h1 className="main-title">
+            {currentUser
+              ? `Welcome Back, ${currentUser.name || currentUser.email}!`
+              : "Welcome to Our Service"}
+          </h1>
+          {!currentUser && (
+            <p className="subtitle">Your hub for effortless appointment management</p>
           )}
         </div>
-      </div>
+      </section>
 
-      {/* Footer */}
+      <section className="features-section">
+        <h2>Why Choose Us?</h2>
+        <div className="features-grid">
+          <div className="feature-card">
+            <i className="fas fa-calendar-check"></i>
+            <FontAwesomeIcon icon={faCalendar} />
+            <h3>Easy Scheduling</h3>
+            <p>Book appointments effortlessly with our streamlined process.</p>
+          </div>
+          <div className="feature-card">
+            <i className="fas fa-lock"></i>
+            <FontAwesomeIcon icon={faLock} />
+            <h3>Secure Data</h3>
+            <p>Your privacy is our priority. All data is encrypted and safe.</p>
+          </div>
+          <div className="feature-card">
+            <i className="fas fa-clock"></i>
+            <FontAwesomeIcon icon={faUniversalAccess} />
+            <h3>24/7 Access</h3>
+            <p>Manage your appointments anytime, anywhere.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="interactive-panels">
+        <div className="panel about-panel">
+          <AboutSection />
+          <img src="/images/doctors_1.svg" alt="Secure data" />
+        </div>
+      </section>
+      </div>)}
+
       <Footer />
     </div>
   );

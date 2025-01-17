@@ -6,12 +6,12 @@ const apiClient = axios.create({
   withCredentials: true, // Include cookies for authentication
 });
 
-export const signup = async (userData:any) => {
+export const signup = async (userData: any) => {
   const response = await apiClient.post("/auth/signup", userData);
   return response.data;
 };
 
-export const login = async (credentials:any) => {
+export const login = async (credentials: any) => {
   const response = await apiClient.post("/auth/login", credentials);
   return response.data;
 };
@@ -25,3 +25,49 @@ export const checkAuth = async () => {
   const response = await apiClient.get("/auth/check-auth");
   return response.data;
 };
+
+// Fetch the current user's profile
+export const fetchProfile = async (email: any) => {
+  const response = await apiClient.get("/user", {
+    params: { email },
+    withCredentials: true,
+  });
+  return response.data.user;
+};
+
+// Update the user's profile
+export const updateProfile = async (profileData: any) => {
+  const response = await apiClient.put("/user", profileData);
+  return response.data;
+};
+
+// Delete the user's account
+export const deleteProfile = async () => {
+  const response = await apiClient.delete("/user");
+  return response.data;
+};
+
+export const fetchAllUsers = async () => {
+  const response = await apiClient.get("/user/fetch");
+  return response.data;
+};
+
+export const fetchUserWithID = async (id: any) => {
+  const response = await apiClient.get(`/user/fetch/${id}`);
+  return response.data;
+};
+
+export const fetchAllAppointments = async () => {
+  const response = await apiClient.get("/appointment/fetch");
+  return response.data;
+}
+
+export const fetchAppointmentWithID = async (id: any) => {
+  const response = await apiClient.get(`/appointment/fetch/${id}`);
+  return response.data;
+}
+
+export const deleteAppointment = async (id: any) => {
+  const response = await apiClient.delete(`/appointment/delete/${id}`);
+  return response.data;
+}

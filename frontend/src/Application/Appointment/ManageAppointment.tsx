@@ -13,7 +13,8 @@ interface Appointment {
   morningOrAfternoon: string;
   symptoms: string;
 }
-
+// Them sort, them search, them status collumn
+// Them Huy Lich Kham
 export default function ManageAppointments() {
   const [appointments, setAppointments] = useState<Appointment[]>([]);
   const [loading, setLoading] = useState(true);
@@ -22,16 +23,15 @@ export default function ManageAppointments() {
   const currentUser = useSelector((state: any) => state.auth.user);
 
   useEffect(() => {
-    console.log("currentUser", currentUser);
     const loadAppointments = async () => {
-      if (!currentUser || !currentUser.user.email) {
+      if (!currentUser || !currentUser.email) {
         setError("Please log in to view your appointments.");
         setLoading(false);
         return;
       }
 
       try {
-        const data = await fetchAppointments(currentUser.user.email);
+        const data = await fetchAppointments(currentUser.email);
         setAppointments(data);
       } catch (err) {
         console.error("Failed to fetch appointments", err);
@@ -62,9 +62,9 @@ export default function ManageAppointments() {
 
   return (
     <div className="manage-appointments-container">
-      <TopBar /> {/* Reuse TopBar */}
+      <TopBar />
       <div className="header">
-        <h1>Manage Appointments for {currentUser?.user.name || "User"}</h1>
+        <h1>Manage Appointments for {currentUser?.name || "User"}</h1>
       </div>
       <div className="appointments-table-container">
         <table className="appointments-table">

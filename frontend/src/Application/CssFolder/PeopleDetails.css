@@ -1,0 +1,125 @@
+/* Details Panel */
+.details-panel {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 30%;
+    background-color: #f8f9fa;
+    border-left: 1px solid #dee2e6;
+    box-shadow: -2px 0 4px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Close Button */
+.close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #6c757d;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-button:hover {
+    color: #495057;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-icon {
+    font-size: 4rem;
+    color: #007bff;
+}
+
+.name {
+    font-size: 1.25rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.edit-icon {
+    font-size: 1rem;
+    color: #007bff;
+    cursor: pointer;
+}
+
+.name-input {
+    font-size: 1.25rem;
+    text-align: center;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+/* Table Styling */
+.details-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.details-table td {
+    padding: 10px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.details-table td:first-child {
+    font-weight: bold;
+    color: #495057;
+}
+
+.details-table td:last-child {
+    text-align: right;
+    color: #212529;
+}
+
+/* Actions */
+.actions {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.actions .btn {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.actions .btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+}
+
+.actions .btn-danger:hover {
+    background-color: #c82333;
+}
+
+.actions .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+}
+
+.actions .btn-secondary:hover {
+    background-color: #5a6268;
+}

@@ -1,0 +1,85 @@
+/* General Container Styling */
+.people-table-container {
+    padding: 20px;
+    background-color: #f9f9f9;
+    /* Light background for contrast */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow for depth */
+}
+
+/* Table Styling */
+.people-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.people-table thead {
+    background-color: #007bff;
+    /* Header background color */
+    color: white;
+}
+
+.people-table th,
+.people-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.people-table th {
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+.table-body tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* User Link Styling */
+.user-link {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.user-link:hover {
+    color: #007bff;
+    /* Blue on hover */
+}
+
+/* User Icon Styling */
+.user-icon {
+    color: #6c757d;
+    /* Muted gray */
+    font-size: 2rem;
+    margin-right: 10px;
+    transition: color 0.3s ease;
+}
+
+.user-icon:hover {
+    color: #007bff;
+    /* Blue on hover */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .people-table {
+        font-size: 0.9rem;
+    }
+
+    .user-icon {
+        font-size: 1.5rem;
+    }
+
+    .people-table-container {
+        padding: 10px;
+    }
+}
+

@@ -4,6 +4,7 @@ import { startLoading, setUser, setError } from "./authReducer";
 import { signup } from "./client"; // API function
 import { Link, useNavigate } from "react-router-dom";
 import "../CssFolder/Signup.css";
+import { showSuccessToast, showErrorToast } from "../Components/Toast"; 
 
 export default function Signup() {
   const [name, setName] = useState(""); // Add name state
@@ -26,10 +27,12 @@ export default function Signup() {
       // Add name to the signup payload
       const userData = await signup({ name, email, password });
       dispatch(setUser(userData));
-      alert("Signup successful! Please log in.");
+      showSuccessToast("Successful! Please log in.");
       navigate("/Application/Account/Login");
     } catch (e: any) {
-      dispatch(setError(e.message || "Signup failed. Try again."));
+      //console.log(e.message);
+      dispatch(setError("Failed. Try again."));
+      showErrorToast(e.message || "Failed. Try again.");
     }
   };
 
