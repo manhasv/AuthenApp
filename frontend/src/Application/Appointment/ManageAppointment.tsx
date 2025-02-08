@@ -93,10 +93,12 @@ export default function ManageAppointments() {
       {selectedAppointment && (
         <Modal onClose={closeModal}>
           <h2>Appointment Details</h2>
-          <p><strong>Name:</strong> {selectedAppointment.name}</p>
-          <p><strong>Date:</strong> {new Date(selectedAppointment.appointmentDate).toLocaleDateString()}</p>
-          <p><strong>Time:</strong> {selectedAppointment.morningOrAfternoon}</p>
-          <p><strong>Symptoms:</strong> {selectedAppointment.symptoms}</p>
+          <div className="appointment-details">
+          <p style={{ color: "black" }}>  <strong>Name:</strong> {selectedAppointment.name}</p>
+          <p style={{ color: "black" }}><strong>Date:</strong> {new Date(selectedAppointment.appointmentDate).toLocaleDateString()}</p>
+          <p style={{ color: "black" }}><strong>Time:</strong> {selectedAppointment.morningOrAfternoon}</p>
+          <p style={{ color: "black" }}><strong>Symptoms:</strong> {selectedAppointment.symptoms}</p>
+          </div>
           <button onClick={closeModal}>Close</button>
         </Modal>
       )}

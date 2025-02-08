@@ -141,3 +141,54 @@ export const retrieveProfileByID = async (req, res) => {
 		res.status(status.BAD_REQUEST).json({ success: false, message: error.message });
 	}
 }
+
+export const deleteProfileByID = async (req, res) => {
+	const { uid } = req.params;
+
+	try {
+		if (!uid) {
+			throw new Error("All fields are required");
+		}
+
+		const user = await User.findById(uid);
+
+		if (!user) {
+			return res.status(status.NOT_FOUND).json({ success: false, message: "User not found" });
+		}
+
+		await User.deleteOne({ _id: uid });
+
+		res.status(status.OK).json({
+			success: true,
+			message: "Profile deleted successfully",
+		});
+	}
+	catch (error) {
+		res.status(status.BAD_REQUEST).json({ success: false, message: error.message });
+	}
+}
+
+export const updateProfileByID = async (req, res) => {
+	const { uid } = req.params;
+
+	try {
+		if (!uid) {
+			throw new Error("All fields are required");
+		}
+
+		const user = await User.findById(uid);
+
+		if (!user) {
+			return res.status(status.NOT_FOUND).json({ success: false, message: "User not found" });
+		}
+		
+		await User.updateOne({ _id: uid}, req.body);
+
+		res.status(status.OK).json({
+			success: true,
+			message: "Profile updated successfully",
+		});
+	} catch (error) {
+		res.status(status.BAD_REQUEST).json({ success: false, message: error.message });
+	}
+}

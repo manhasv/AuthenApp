@@ -48,7 +48,7 @@ export const deleteProfile = async () => {
 };
 
 export const fetchAllUsers = async () => {
-  const response = await apiClient.get("/user/fetch");
+  const response = await apiClient.get("/user/");
   return response.data;
 };
 
@@ -57,17 +57,31 @@ export const fetchUserWithID = async (id: any) => {
   return response.data;
 };
 
+export const deleteUserWithID = async (id: any) => {
+  const response = await apiClient.delete(`/user/${id}`);
+  return response.data;
+}
+
+export const updateUserWithID = async (id: any, userData: any) => {
+  const response = await apiClient.put(`/user/${id}`, userData);
+  return response.data;
+}
+
 export const fetchAllAppointments = async () => {
   const response = await apiClient.get("/appointment/fetch");
   return response.data;
 }
 
 export const fetchAppointmentWithID = async (id: any) => {
-  const response = await apiClient.get(`/appointment/fetch/${id}`);
+  const response = await apiClient.get(`/appointment/${id}`);
   return response.data;
 }
 
 export const deleteAppointment = async (id: any) => {
-  const response = await apiClient.delete(`/appointment/delete/${id}`);
+  const response = await apiClient.delete(`/appointment/${id}`);
+  return response.data;
+}
+export const updateAppointment = async (id: any, appointmentData: any) => {
+  const response = await apiClient.put(`/appointment/${id}`, appointmentData);
   return response.data;
 }

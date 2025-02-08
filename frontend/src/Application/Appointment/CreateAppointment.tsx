@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { createAppointment } from "./client"; // Import the API function
 import "../CssFolder/CreateAppointment.css";
+import { useSelector } from "react-redux";
 
 export default function CreateAppointment() {
   const [email, setEmail] = useState("");
@@ -15,6 +16,18 @@ export default function CreateAppointment() {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null); // Feedback message
   const navigate = useNavigate();
+
+  const currentUser = useSelector((state: any) => state.auth.user);
+  
+  useEffect(() => {
+    if (currentUser) {
+      setEmail(currentUser.email || ""); // Default to empty string if property is undefined
+      setName(currentUser.name || "");
+      setNationalID(currentUser.nationalID || "");
+      setPhoneNumber(currentUser.phoneNumber || "");
+      setDob(currentUser.dob || "");
+    }
+  }, [currentUser]);
 
   const handleCreateAppointment = async () => {
     if (
@@ -46,9 +59,9 @@ export default function CreateAppointment() {
         morningOrAfternoon,
       };
 
-      const response = await createAppointment(appointmentData); // Call the API
-      setMessage(response.message || "Appointment created successfully!"); // Show success message
-      setTimeout(() => navigate("/Application/Appointment"), 1500); // Redirect after 1.5 seconds
+      const response = await createAppointment(appointmentData);
+      setMessage(response.message || "Appointment created successfully!"); 
+      setTimeout(() => navigate("/Application/Appointment"), 1500);
     } catch (error: any) {
       console.error("Error creating appointment:", error);
       setMessage(error.response?.data?.message || "Failed to create appointment. Please try again.");

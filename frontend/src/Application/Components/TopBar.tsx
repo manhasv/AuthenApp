@@ -48,13 +48,21 @@ export default function TopBar() {
           <Link to="/Application">Contact</Link>
           <Link to="/Application/Appointment/CreateAppointment">Create Appointment</Link>
           {currentUser ? (
-            <Link to="/Application" onClick={handleLogout}>
+            <>
+              <Link to="/Application" onClick={handleLogout}>
               Logout
-            </Link>
+              </Link>
+              <Link to="/Application/Account/Profile">Profile</Link>
+              <Link to="/Application/Appointment/Appointments">Manage Appointments</Link>
+              </>
           ) : (
+            <>
             <Link to="/Application/Account/Login">Login</Link>
+            <Link to="/Application/Account/Signup"> Register </Link>
+            </>
           )}
-          <Link to="/Application/Account/Signup"> Register </Link>
+          
+
         </nav>
       )}
     </header>

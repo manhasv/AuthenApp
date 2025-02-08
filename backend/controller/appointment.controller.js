@@ -152,3 +152,34 @@ export const deleteAppointment = async (req, res, next) => {
         next(error);
     }
 }
+export const updateAppointment = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(status.BAD_REQUEST).json({
+                success: false,
+                message: "Appointment ID is required to update appointment.",
+            });
+        }
+
+        const appointment = await Appointment.findByIdAndUpdate(id, req.body, {
+            new: true,
+            runValidators: true,
+        });
+
+        if (!appointment) {
+            return res.status(status.NOT_FOUND).json({
+                success: false,
+                message: "Appointment not found.",
+            });
+        }
+
+        res.status(status.OK).json({
+            success: true,
+            appointment,
+        });
+    } catch (error) {
+        next(error);
+    }
+}

@@ -1,5 +1,5 @@
 import express from "express";
-import {  fetchAllUsers, retrieveProfileByID } from "../controller/user.controller.js";
+import {  fetchAllUsers, retrieveProfileByID, deleteProfileByID, updateProfileByID } from "../controller/user.controller.js";
 
 const router = express.Router();
 
@@ -8,10 +8,10 @@ const router = express.Router();
 
 // router.get("/", retrieveProfileByEmail);
 
-// router.post("/:uid", updateProfileByEmail);
-// router.delete("/:uid", deleteProfileByEmail);
 
-router.get("/fetch/:uid", retrieveProfileByID);
+router.put("/:uid", updateProfileByID);
+router.delete("/:uid", deleteProfileByID);
+router.get("/:uid", retrieveProfileByID);
 
-router.get("/fetch", fetchAllUsers);
+router.get("/", fetchAllUsers);
 export default router;

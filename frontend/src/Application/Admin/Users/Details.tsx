@@ -6,23 +6,24 @@ import { FaPencil } from "react-icons/fa6";
 import "../../CssFolder/PeopleDetails.css";
 import * as client from "../../Account/client";
 
-export default function PeopleDetails() {
+export default function PeopleDetails({ 
+  onSave,
+}: { 
+  onSave: (id: string, user: any) => void,
+}) {
   const { uid } = useParams();
   const [user, setUser] = useState<any>(null);
-  const [name, setName] = useState("");
   const [editing, setEditing] = useState(false);
+  const [updatedUser, setUpdatedUser] = useState<any>({});
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
   const fetchUser = async () => {
     setLoading(true);
     try {
-      let fetchedUser;
-      if (uid) {
-        fetchedUser = await client.fetchUserWithID(uid);
-      } else {
-        // Mocked user data for testing
-        fetchedUser = {
+      const fetchedUser = uid
+        ? await client.fetchUserWithID(uid) // Replace with your API client
+        : {
           data: {
             _id: "1",
             firstName: "John",
@@ -35,9 +36,9 @@ export default function PeopleDetails() {
             lastLogin: "2023-12-01",
             isVerified: true,
           },
-        };
-      }
+        }; // Mocked user data
       setUser(fetchedUser.data);
+      setUpdatedUser(fetchedUser.data); // Initialize updated user with fetched data
     } catch (error) {
       console.error("Error fetching user:", error);
     } finally {
@@ -46,24 +47,37 @@ export default function PeopleDetails() {
   };
 
   const saveUser = async () => {
-    const [firstName, lastName = ""] = name.split(" ");
-    const updatedUser = { ...user, firstName, lastName };
-    setUser(updatedUser);
-    setEditing(false);
+    try {
+      onSave(uid ?? '', updatedUser);
+      setUser(updatedUser);
+      setEditing(false);
+    } catch (error) {
+      console.error("Error saving user:", error);
+    }
   };
 
-  const deleteUser = () => {
-    navigate(-1); // Simulate delete and navigate back
+  const handleChange = (field: string, value: string) => {
+    setUpdatedUser((prev: any) => ({
+      ...prev,
+      [field]: field === "isVerified" ? value === "Verified" : value,
+    }));
   };
+
+  const handleVerify = () => {
+    try {
+      setUser((prev: any) => ({ ...prev, isVerified: true }));
+    } catch (error) {
+      console.error("Error verifying user:", error);
+    }
+  }
 
   useEffect(() => {
     fetchUser();
+
   }, [uid]);
 
-  if (!uid) return <div>User ID is missing.</div>;
-
+  if (!uid) return <div></div>;
   if (loading) return <div>Loading...</div>;
-
   if (!user) return <div>Failed to load user details.</div>;
 
   return (
@@ -73,33 +87,52 @@ export default function PeopleDetails() {
       </button>
       <div className="header">
         <FaUserCircle className="user-icon" />
-        {editing ? (
-          <input
-            className="name-input"
-            defaultValue={`${user.name}`}
-            onChange={(e) => setName(e.target.value)}
-            onKeyDown={(e) => e.key === "Enter" && saveUser()}
-          />
-        ) : (
-          <div className="name" onClick={() => setEditing(true)}>
-            {user.name}
-            <FaPencil className="edit-icon" />
-          </div>
-        )}
+        <div className="name">
+          {editing ? (
+            <input
+              type="text"
+              className="name-input"
+              value={updatedUser.name || ""}
+              onChange={(e) => handleChange("name", e.target.value)}
+            />
+          ) : (
+            <span>{user.name}</span>
+          )}
+          <FaPencil className="edit-icon" onClick={() => setEditing(!editing)} />
+        </div>
       </div>
       <table className="details-table">
         <tbody>
           <tr>
             <td>Role:</td>
-            <td>{user.role || "N/A"}</td>
-          </tr>
-          <tr>
-            <td>Login ID:</td>
-            <td>{user._id || "N/A"}</td>
+            <td>
+              {editing ? (
+                <select
+                  value={updatedUser.role || ""}
+                  onChange={(e) => handleChange("role", e.target.value)}
+                >
+                  <option value="Admin">Admin</option>
+                  <option value="User">User</option>
+                  <option value="Viewer">Viewer</option>
+                </select>
+              ) : (
+                user.role || "N/A"
+              )}
+            </td>
           </tr>
           <tr>
             <td>Email:</td>
-            <td>{user.email || "N/A"}</td>
+            <td>
+              {editing ? (
+                <input
+                  type="email"
+                  value={updatedUser.email || ""}
+                  onChange={(e) => handleChange("email", e.target.value)}
+                />
+              ) : (
+                user.email || "N/A"
+              )}
+            </td>
           </tr>
           <tr>
             <td>Last Login:</td>
@@ -107,16 +140,64 @@ export default function PeopleDetails() {
           </tr>
           <tr>
             <td>Verify Status:</td>
-            <td>{user.isVerified ? "Verified" : "Not Verified"}</td>
+            <td>
+              {editing ? (
+                <select
+                  value={updatedUser.isVerified ? "Verified" : "Not Verified"}
+                  onChange={(e) =>
+                    handleChange("isVerified", e.target.value) // Pass the string value
+                  }
+                >
+                  <option value="Verified">Verified</option>
+                  <option value="Not Verified">Not Verified</option>
+                </select>
+              ) : user.isVerified ? (
+                "Verified"
+              ) : (
+                "Not Verified"
+              )}
+            </td>
+          </tr>
+          <tr>
+            <td> Phone Number</td>
+            <td>
+              {editing ? (
+                <input
+                  type="text"
+                  value={updatedUser.phoneNumber || ""}
+                  onChange={(e) => handleChange("phoneNumber", e.target.value)}
+                />
+              ) : (
+                user.phoneNumber || "N/A"
+              )}
+            </td>
+          </tr>
+          <tr>
+            <td>Date of Birth</td>
+            <td>
+              {editing ? (
+                <input
+                  type="date"
+                  value={updatedUser.dob || ""}
+                  onChange={(e) => handleChange("dob", e.target.value)}
+                />
+              ) : (
+                user.dob || "N/A"
+              )}
+            </td>
           </tr>
         </tbody>
       </table>
       <div className="actions">
-        <button className="btn btn-danger" onClick={deleteUser}>
-          Delete
-        </button>
-        <button className="btn btn-secondary" onClick={() => navigate("/Application/Admin/Users")}>
-          Cancel
+        {editing && (
+          <button className="btn btn-primary" onClick={saveUser}>
+            Save
+          </button>
+        )}
+        <button
+          className={`btn ${editing ? "btn-secondary" : "btn-danger"}`}
+          onClick={editing ? () => setEditing(false) : () => navigate(-1)}>
+          {editing ? "Cancel" : "Delete"}
         </button>
       </div>
     </div>

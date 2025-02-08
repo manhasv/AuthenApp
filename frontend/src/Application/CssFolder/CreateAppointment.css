@@ -3,7 +3,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh; /* Full-page height */
+    height: 120vh; /* Full-page height */
     background: linear-gradient(135deg, #004080, #007bff); /* Gradient background */
     color: white;
   }

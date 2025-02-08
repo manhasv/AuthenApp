@@ -49,16 +49,11 @@
     transition: color 0.3s ease;
 }
 
-.user-link:hover {
-    color: #007bff;
-    /* Blue on hover */
-}
-
 /* User Icon Styling */
 .user-icon {
     color: #6c757d;
     /* Muted gray */
-    font-size: 2rem;
+    font-size: 1.5rem;
     margin-right: 10px;
     transition: color 0.3s ease;
 }
@@ -83,3 +78,49 @@
     }
 }
 
+
+/* Action Icons Column */
+.wd-actions {
+    display: middle;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.action-icon {
+    transform: scale(0.7);
+    font-size: 2rem;
+    color: #007bff;
+    cursor: pointer;
+    transition: transform 0.2s, color 0.3s;
+}
+
+.action-icon:hover {
+    transform: scale(0.9);
+
+    color: #0056b3;
+}
+
+.edit-icon {
+    color: #28a745;
+}
+
+.edit-icon:hover {
+    color: #218838;
+}
+
+.delete-icon {
+    color: #dc3545;
+}
+
+.delete-icon:hover {
+    color: #c82333;
+}
+
+.info-icon {
+    color: #17a2b8;
+}
+
+.info-icon:hover {
+    color: #138496;
+}

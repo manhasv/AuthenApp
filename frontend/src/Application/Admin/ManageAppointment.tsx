@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { fetchAllAppointments } from "../Account/client";
 import TopBar from "../Components/TopBar";
 import * as client from "../Account/client";
 import AppointmentTable from "./Users/AppointmentTable";
@@ -14,8 +13,17 @@ export default function ManageAppointments() {
         try {
           await client.deleteAppointment(id);
           setAppointments((prev) => prev.filter((appointment) => appointment.id !== id)); // Update state
+          fetchAppointments();
         } catch (error) {
           console.error("Error deleting appointment:", error);
+        }
+    };
+    const handleSave = async (id:string, data: any) => {
+        try {
+            await client.updateAppointment(id, data);
+            fetchAppointments();
+        } catch (error) {
+            console.error("Error saving user:", error);
         }
     };
     useEffect(() => {
@@ -25,7 +33,7 @@ export default function ManageAppointments() {
         <div>
             <TopBar />
             <h1>Manage Appointments</h1>
-            <AppointmentTable appointments={appointments} onDelete={handleDelete}/>
+            <AppointmentTable appointments={appointments} onDelete={handleDelete} onSave={handleSave}/>
         </div>
     );
 }
