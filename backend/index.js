@@ -22,6 +22,10 @@ const corsOptions = {
   credentials: true, // Allow cookies and authentication headers
 };
 
+app.get('/', (req, res) => {
+    res.send('Welcome to the API!');
+});
+
 app.use(cors(corsOptions));
 
 if (!PORT || !process.env.MONGO_URI) {
